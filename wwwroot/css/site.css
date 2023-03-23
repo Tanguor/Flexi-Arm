@@ -1,0 +1,136 @@
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.navbar-brand {
+    color: #004087 !important
+}
+
+    .navbar-brand:visited {
+        color: #004087 !important
+    }
+
+.navbar-default-color {
+    color: #004087 !important
+}
+
+.navbar-inverse {
+    color: #004087 !important
+}
+html {
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
+}
+
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #c6d200;
+}
+
+footer {
+    margin-top:auto;
+    background-color: #004087
+}
+
+
+button {
+    width: 100%;
+    height: 100%;
+}
+
+
+.b {
+    border: 1px white;
+}
+
+.c {
+    height: 80px;
+    border: 1px white;
+}
+
+
+
+h1 {
+    color: white ;
+    font-family: Fantasy;
+    font-size: 62px;
+    font-weight: 800;
+    line-height: 72px;
+    margin: 0 0 24px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top:10px;
+}
+
+.navbar-brand {
+    color: white;
+    left: 0;
+    margin: auto;
+}
+
+.h2 {
+    color: #ffffff;
+    font-family: 'Raleway',sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 36px;
+    margin: 0 0 24px;
+    text-align: center;
+}
+
+
+.p {
+    color: #f8f8f8;
+    font-family: 'Raleway',sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+    margin: 0 0 24px;
+}
+
+.card-body {
+    background-color: #e9e895;
+}
+
+
+a {
+    color: white;
+    text-decoration: underline;
+}
+
+
+    a:hover {
+        color: #1c1c1c;
+        text-decoration: underline;
+    }
+
+.navbar-custom {
+    background-color: #004087;
+}
+
+.left {
+    margin-left: auto;
+    margin-top:auto;
+    text-align:center;
+}
+
+.right {
+    margin-left:auto;
+    margin-bottom: 0px;
+}
+
+.btn-custom {
+    background-color: #004087;
+    color:whitesmoke;
+}
+
+.underline {
+    text-decoration: underline;
+}

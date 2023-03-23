@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Configuration de la machine";
+}
+<h2 style="font-size:50px;letter-spacing: 1px; text-align:center">@ViewData["Title"]</h2>
+    <center>
+    <p style="color:grey">(Accès reservé à la maintenance et à l'administration)</p>
+    </center>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <img src="~/docs/Camera.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Système de vision.</h5>
+                        <p class="card-text">Le système de vision s'occupe de la localisation des pièces à préhenser. La configuration peut concerner l'optique comme l'IA.</p>
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <button class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("Vision","Configuration")'">Configuration Systeme vision.</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <img src="~/docs/flexibowl.png" class="card-img-top" alt="Robot Epson"  />
+                    <div class="card-body">
+                        <h5 class="card-title">Flexibowl.</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <button class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("Flexibowl","Configuration")'">Configuration FlexiBowl.</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <img src="~/docs/robot.png" class="card-img-top" alt="..." />
+                    <div class="card-body">
+                        <h5 class="card-title">Controleur bras robot.</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <button class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("Robot","Configuration")'">Configuration robot Epson.</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

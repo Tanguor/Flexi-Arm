@@ -1,0 +1,50 @@
+﻿@{
+    <br />
+    <center>
+        <form action="COM_Flexibowl" method="get" class="form-example">
+            <div class="form-example">
+                <label for="ip">Ip publique</label>
+                <input value="127.0.0.1" accept="ip" id="ip" required>
+            </div>
+            <div class="form-example">
+                <label for="port">Mettre port</label>
+                <input value="5001" type="number" name="port" id="port" required>
+            </div>
+            <div class="form-example">
+                <label for="message">Le message</label>
+                <input value="Envoi de la commande" name="message" id="message" required >
+            </div>
+            <br/>
+            <div class="form-example">
+                <input type="submit" value="Com_Flexibowl">
+            </div>
+        </form>
+    </center>
+
+    @*Notification Démarage*@
+    @if (TempData["MessageReu"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>Message reçu: </strong> @TempData["Messagereu"]
+        </div>
+        TempData["MessageReu"] = null;
+    }
+
+    @if (TempData["Messagefail"] != null)
+    {
+        <div class="alert alert-warning">
+            <strong>L'envoi du message a échoué.</strong> @TempData["Messagefail"]
+        </div>
+
+    }
+
+
+
+
+
+
+
+
+
+
+}

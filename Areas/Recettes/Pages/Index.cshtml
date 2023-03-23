@@ -1,0 +1,76 @@
+﻿@page
+@model Flexi_Arm.Areas.Recettes.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="color:#004087; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" class="underline">Liste des recettes</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9 ">
+            <table class="table table-dark table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Recette[0].Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Recette[0].Description)
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.Recette) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Editer</a> |
+                            <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.Id">Supprimer</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Recette séléctionnée
+                </button>
+                <ul class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    @foreach (var item in Model.Recette){
+                        <li>
+                            @using (Html.BeginForm("RecetteSlct", "Recettes"))
+                            {
+                                <button type="submit" name="itemid" value="@item.Id" class="dropdown-item">@Html.DisplayFor(modelItem => item.Name)</button>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    @*notifiction de chargement de la recette*@
+    @if (TempData["MessageRecette"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>Vous avez chargé la recettes: </strong> "@TempData["MessageRecette"]" <a class="text-danger" style="float:right">Veillez Redémarer le sytème pour appliquer les correctifs.</a>
+        </div>
+        TempData["MessageRecette"] = null;
+
+    }
+</div>
+<hr />
+<p>
+    <a asp-page="Create" style="color:#004087">Create New</a>
+</p>

@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-2">Flexi-Arm</h1>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="container" width="100%">
+            <center>
+                <div class="row">
+                    <div class="col-lg-4">
+                            <div class="card-body b">
+                                @using (Html.BeginForm("HandleButtonOn", "Home"))
+                                {
+                                <button  type="submit" name="ButtonOn" class="btn btn-success btn-lg btn-block" value="1" style="font-size:32px;color:whitesmoke">Démarrer</button>
+                                }
+                            </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card-body b" >
+                            @using (Html.BeginForm("HandleButtonAcq", "Home"))
+                            {
+                                <button  type="submit" name="ButtonAcq" class="btn btn-warning btn-block btn-lg" value="1" style="font-size:32px;color:whitesmoke">Acquitement</button>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card-body b">
+                            @using (Html.BeginForm("HandleButtonOff", "Home"))
+                                {
+                                <button type="submit" name="ButtonOff" class="btn btn-danger btn-lg btn-block" value="1" style="font-size:32px;color:whitesmoke">Eteindre</button>
+                                }
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="col-sm-8">
+                    <div class="card-body">
+                        <button class="btn btn-secondary btn-lg " onclick="location.href='@Url.Action("Configuration","Home")'">Configuration de la machine</button>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+</div>
+<br />
+
+@*Notification Démarage*@
+@if (TempData["MessageReu"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Message reçu: </strong> @TempData["Messagereu"]
+    </div>
+    TempData["MessageReu"] = null;
+
+}
+@*Notification Acquitement*@
+@if (TempData["AcquitementReu"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Message reçu: </strong> @TempData["AcquitementReu"]
+    </div>
+    TempData["AcquitementReu"] = null;
+
+}
+@*Notification Extinction*@
+@if (TempData["ExctinctionReu"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Message reçu: </strong> @TempData["ExctinctionReu"]
+    </div>
+    TempData["ExtinctionReu"] = null;
+
+}
+
+@if (TempData["Messagefail"] != null)
+{
+    <div class="alert alert-warning">
+        <strong>L'envoi du message a échoué.</strong> @TempData["Messagefail"]
+    </div>
+
+}
