@@ -8,38 +8,48 @@ namespace Flexi_Arm.Controllers
     {
         private readonly Areas.Identity.Data.ApplicationDbContext _context;
 
-    public RecettesController(Areas.Identity.Data.ApplicationDbContext context)
-    {
-        _context = context;
-    }
+        // Constructeur pour initialiser le DbContext
+        public RecettesController(Areas.Identity.Data.ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-
             return View();
         }
 
+        // Propriété pour stocker la recette sélectionnée
         [BindProperty]
         public Recette RecetteChoisie { get; set; } = default!;
 
-
+        // Action pour récupérer la recette sélectionnée par son id et la stocker dans la propriété RecetteChoisie
         public async Task<IActionResult> RecetteSlct(int? itemid)
         {
+            // Vérifie si l'id est null ou si le contexte est null
             if (itemid == null || _context.Recette == null)
             {
                 return NotFound();
             }
 
+            // Recherche la recette correspondante à l'id
             var recette = await _context.Recette.FirstOrDefaultAsync(m => m.Id == itemid);
+            // Vérifie si la recette n'est pas null
             if (recette == null)
             {
                 return NotFound();
             }
+
+            // Stocke la recette dans la propriété RecetteChoisie
             RecetteChoisie = recette;
             TempData["MessageRecette"] = RecetteChoisie.Name;
+
+            // Redirige vers l'Index
             return RedirectToAction("Index");
         }
     }
 }
+
 
 //Ce morceau de code est un contrôleur ASP.NET Core MVC nommé "RecettesController". Il est défini dans le namespace "Flexi_Arm.Controllers".
 //Le contrôleur contient deux méthodes d'action publiques nommées "Index" et "RecetteSlct".

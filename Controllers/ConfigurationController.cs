@@ -10,20 +10,26 @@ namespace Flexi_Arm.Controllers
 {
     public class ConfigurationController : Controller
     {
-        [Authorize(Policy = "RequireAdmin")]//192.168.143.1
+        // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
+        [Authorize(Policy = "RequireAdmin")]
         public IActionResult Flexibowl()
         {
-
+            // Retourne la vue Flexibowl
             return View();
         }
 
+        // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]
         public ActionResult COM_Flexibowl(string ip, int port, string message)
         {
+            // Variable pour la tentative de connexion
             int a = 0;
+
+        // Label pour la boucle de connexion
         connection:
             try
             {
+                // Commandes à envoyer au Flexibowl
                 string StrCommand = "servo=1" + Convert.ToChar(13);
                 SendCommand(StrCommand);
 
@@ -41,53 +47,65 @@ namespace Flexi_Arm.Controllers
 
                 StrCommand = "forward=1" + Convert.ToChar(13);
                 SendCommand(StrCommand);
-                //UdpClient udpClient = new UdpClient();
-                //ASCIIEncoding encoder = new ASCIIEncoding();
-                //string messageToSend = message + Convert.ToChar(13);
-                //IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-                //udpClient.Connect(RemoteIpEndPoint);
-                //byte[] b = encoder.GetBytes(messageToSend);
-                //udpClient.Send(b, b.Length);
-                //udpClient.Close();
-                //System.Threading.Thread.Sleep(50);
-                //Console.WriteLine("sending data to server...");
 
             }
             catch (Exception)
             {
+                // Boucle de connexion si la tentative précédente a échoué
                 while (a != 1)
                 {
                     a++;
                     goto connection;
                 }
             }
+
+            // Redirige vers l'action Flexibowl
             return RedirectToAction("Flexibowl");
         }
 
+        // Compteur pour le message envoyé à l'adresse de diffusion
         static int H  = 0;
+
+        // Méthode pour envoyer des commandes au Flexibowl
         private void SendCommand(string StrCommand)
         {
+            // Crée un client UDP
             UdpClient udpClient = new UdpClient();
+
+            // Convertit l'encodage ASCII en byte[]
             ASCIIEncoding encoder = new ASCIIEncoding();
+
+            // Établit une connexion
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5001);
             udpClient.Connect(RemoteIpEndPoint);
+
+            // Convertit la commande en byte[] et l'envoie
             byte[] b = encoder.GetBytes(StrCommand);
             udpClient.Send(b, b.Length);
+
+            // Ferme le client UDP
             udpClient.Close();
-            Thread.Sleep(50);
 
-            //Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
-            //IPAddress broadcast = IPAddress.Parse("192.168.0.3");
-
-            //byte[] sendbuf = Encoding.ASCII.GetBytes(StrCommand);
-            //IPEndPoint ep = new IPEndPoint(broadcast, 5001);
-
-            //s.SendTo(sendbuf, ep);
+            // Attend une demi-seconde avant d'afficher un message dans la console
             Thread.Sleep(500);
 
+            // Affiche un message dans la console
             Console.WriteLine(H + "Message sent to the broadcast address");
+
+            // Incrémente le compteur pour le message envoyé
             H++; 
         }
     }
 }
+
+
+//Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+//IPAddress broadcast = IPAddress.Parse("192.168.0.3");
+
+//byte[] sendbuf = Encoding.ASCII.GetBytes(StrCommand);
+//IPEndPoint ep = new IPEndPoint(broadcast, 5001);
+
+//s.SendTo(sendbuf, ep);
+
+
