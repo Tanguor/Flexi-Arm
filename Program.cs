@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using NReco.Logging.File;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -31,6 +33,8 @@ AddAuthorizationPolicies(builder.Services);
 #endregion
 
 
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,7 +55,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=LogPage}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
@@ -73,6 +77,8 @@ void AddAuthorizationPolicies(IServiceCollection services)
         options.AddPolicy("RequireMaintenance", policy => policy.RequireRole("Maintenance"));
     });
 }
+
+
 public class Startup
 {
     IWebHostEnvironment HostingEnv;
@@ -81,8 +87,8 @@ public class Startup
         HostingEnv = env;
         var builder = new ConfigurationBuilder()
             .SetBasePath(env.ContentRootPath)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false);
 
         builder.AddEnvironmentVariables();
         Configuration = builder.Build();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Flexi_Arm.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -10,6 +11,14 @@ namespace Flexi_Arm.Controllers
 {
     public class ConfigurationController : Controller
     {
+        private readonly ILogger<ConfigurationController> _logger;
+
+        public ConfigurationController( ILogger<ConfigurationController> logger)
+        {
+            _logger = logger;
+        }
+
+
         // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]
         public IActionResult Flexibowl()
@@ -20,7 +29,7 @@ namespace Flexi_Arm.Controllers
 
         // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]
-        public ActionResult COM_Flexibowl(string ip, int port, string message)
+        public ActionResult COM_Flexibowl(string ip_flexi, int port, string message)
         {
             // Variable pour la tentative de connexion
             int a = 0;
@@ -58,6 +67,9 @@ namespace Flexi_Arm.Controllers
                     goto connection;
                 }
             }
+            //Log here
+            var username = HttpContext.User.Identity.Name;
+            _logger.LogInformation((EventId)200, "Commande de l'utilisateur:{user} à l'adresse ip:{ip} sur le port {port} le {date}", username, ip_flexi, port,DateTime.Now);
 
             // Redirige vers l'action Flexibowl
             return RedirectToAction("Flexibowl");
@@ -76,7 +88,7 @@ namespace Flexi_Arm.Controllers
             ASCIIEncoding encoder = new ASCIIEncoding();
 
             // Établit une connexion
-            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.3"), 6001);
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.3"), 5001);
             udpClient.Connect(RemoteIpEndPoint);
 
             // Convertit la commande en byte[] et l'envoie
@@ -90,7 +102,14 @@ namespace Flexi_Arm.Controllers
             Thread.Sleep(500);
 
             // Affiche un message dans la console
-            Console.WriteLine(H + "Message sent to the broadcast address");
+            if (H == 1)
+            {
+                Console.WriteLine(H + " er message sent to the broadcast address");
+            }
+            else
+            {
+                Console.WriteLine(H + "ème message sent to the broadcast address");
+            }
 
             // Incrémente le compteur pour le message envoyé
             H++; 
