@@ -76,7 +76,7 @@ namespace Flexi_Arm.Controllers
             ASCIIEncoding encoder = new ASCIIEncoding();
 
             // Établit une connexion
-            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5001);
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.3"), 6001);
             udpClient.Connect(RemoteIpEndPoint);
 
             // Convertit la commande en byte[] et l'envoie

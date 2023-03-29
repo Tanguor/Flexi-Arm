@@ -22,7 +22,6 @@ namespace Flexi_Arm.Controllers
 
         // Définit une action accessible uniquement aux utilisateurs ayant l'autorisation "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]
-        [Authorize(Policy = "RequireAdmin")]
         public IActionResult Admin()
         {
             return View();
