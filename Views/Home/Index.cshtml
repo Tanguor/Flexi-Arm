@@ -60,7 +60,7 @@
                 <hr>
                 <div class="col-sm-8">
                     <div class="card-body">
-                        <button class="btn btn-secondary btn-lg " onclick="location.href='@Url.Action("Configuration","Home")'">Configuration de la machine</button>
+                        <button class="btn btn-light btn-lg " onclick="location.href='@Url.Action("Configuration","Home")'"> >>>Configuration de la machine<<< </button>
                     </div>
                 </div>
             </center>
@@ -68,6 +68,9 @@
     </div>
 </div>
 <br />
+<form method="post" action="@Url.Action("Logs", "Configuration")">
+    <input type="submit" value="Voir les logs" />
+</form>
 
 @*Notification Démarage*@
 @if (TempData["MessageReu"] != null)

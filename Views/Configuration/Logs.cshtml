@@ -1,0 +1,67 @@
+﻿@model string
+<h2>Logs</h2>
+<div class="logs-container">
+    <input type="text" id="search-input" placeholder="Rechercher..." />
+    <pre id="logs-content">
+        @Model
+    </pre>
+</div>
+
+<style>
+    .logs-container {
+        max-height: 500px;
+        overflow-y: scroll;
+        background-color: #e9e895;
+        padding: 10px;
+        border: 1px solid #004087;
+        position: relative;
+    }
+
+        .logs-container::before {
+            content: "Logs";
+            position: absolute;
+            top: -30px;
+            left: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+    #search-input {
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+    }
+
+    .highlight {
+        background-color: #e9e895;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var searchInput = document.getElementById("search-input");
+        var logsContent = document.getElementById("logs-content");
+
+        searchInput.addEventListener("input", function () {
+            var searchTerm = searchInput.value.toLowerCase();
+            var logs = logsContent.innerText.split("\n");
+
+            logsContent.innerHTML = "";
+
+            logs.forEach(function (log) {
+                if (log.toLowerCase().includes(searchTerm)) {
+                    var logElement = document.createElement("div");
+                    logElement.innerText = log;
+
+                    if (searchTerm) {
+                        logElement.innerHTML = logElement.innerHTML.replace(new RegExp(searchTerm, "gi"), function (match) {
+                            return "<span class='highlight'>" + match + "</span>";
+                        });
+                    }
+
+                    logsContent.appendChild(logElement);
+                }
+            });
+        });
+    });
+</script>

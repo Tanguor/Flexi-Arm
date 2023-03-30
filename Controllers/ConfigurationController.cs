@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Reflection.Metadata;
 using System.Text;
 using Serilog;
+using Microsoft.Extensions.Logging;
 
 
 namespace Flexi_Arm.Controllers
@@ -28,6 +29,34 @@ namespace Flexi_Arm.Controllers
             // Retourne la vue Flexibowl
             return View();
         }
+
+        public IActionResult Systeme_Vision()
+        {
+            // Retourne la vue Flexibowl
+            return View();
+        }
+
+        public IActionResult Bras_Robot()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Logs()
+        {
+            // Remplacez "chemin_du_fichier" par le chemin d'accès réel de votre fichier de journalisation
+            string logFilePath = "Logs\\FlexiArmLog-" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+            string logContent;
+
+            using (var fileStream = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var streamReader = new StreamReader(fileStream))
+            {
+                logContent = streamReader.ReadToEnd();
+            }
+
+            return View("Logs", logContent);
+        }
+
 
         // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]

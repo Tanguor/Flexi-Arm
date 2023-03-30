@@ -7,7 +7,7 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-        <li class="nav-item dropdown">
+    <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white">
                 Recettes
             </a>
@@ -15,18 +15,20 @@
                 <li><a class="dropdown-item" asp-area="" asp-controller="Recettes" asp-action="Index">Liste des recettes</a></li>
                 <li><a class="dropdown-item" asp-area="" asp-controller="Recettes" asp-action="Create">Créer des recettes</a></li>
             </ul>
-        </li>
+    </li>
 
     <li class="nav-item">
         <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> Bienvenue @UserManager.GetUserName(User)</a>
     </li>
-        <li class="nav-item">
-            <a class="nav-link text-light" id="register" asp-area="Identity" asp-page="/Account/Register">Ajouter un compte</a>
-        </li>
     <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-light">Déconnexion</button>
-        </form>
+        <a class="nav-link text-light" id="register" asp-area="Identity" asp-page="/Account/Register">Ajouter un compte</a>
+    </li>
+    <li class="nav-item">
+            <div style="background-color:#164790">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                 <button id="logout" type="submit" class="nav-link btn btn-link text-light">Déconnexion</button>
+            </form>
+        </div>
     </li>
 
 
