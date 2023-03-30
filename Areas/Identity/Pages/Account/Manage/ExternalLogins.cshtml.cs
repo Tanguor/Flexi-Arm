@@ -2,11 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Flexi_Arm.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -33,7 +28,8 @@ namespace Flexi_Arm.Areas.Identity.Pages.Account.Manage
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
+        ///     directly from your code. This API may change or be removed in future 
+        ///     s.
         /// </summary>
         public IList<UserLoginInfo> CurrentLogins { get; set; }
 
@@ -119,12 +115,7 @@ namespace Flexi_Arm.Areas.Identity.Pages.Account.Manage
             }
 
             var userId = await _userManager.GetUserIdAsync(user);
-            var info = await _signInManager.GetExternalLoginInfoAsync(userId);
-            if (info == null)
-            {
-                throw new InvalidOperationException($"Unexpected error occurred loading external login info.");
-            }
-
+            var info = await _signInManager.GetExternalLoginInfoAsync(userId) ?? throw new InvalidOperationException($"Unexpected error occurred loading external login info.");
             var result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {

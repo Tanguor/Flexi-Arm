@@ -6,16 +6,25 @@
 <div class="text-center">
     <h1 class="display-2">Flexi-Arm</h1>
 </div>
+<!-- HTML !-->
+
 <div class="card">
     <div class="card-body">
         <div class="container" width="100%">
             <center>
                 <div class="row">
                     <div class="col-lg-4">
+
                             <div class="card-body b">
                                 @using (Html.BeginForm("HandleButtonOn", "Home"))
                                 {
-                                <button  type="submit" name="ButtonOn" class="btn btn-success btn-lg btn-block" value="1" style="font-size:32px;color:whitesmoke">Démarrer</button>
+                                <button type="submit" name="ButtonOn" class="button-82-pushable" value="1" role="button" >
+                                    <span class="button-82-shadow"></span>
+                                    <span class="button-82-edge"></span>
+                                    <span class="button-82-front text">
+                                        Démarrer
+                                    </span>
+                                </button>
                                 }
                             </div>
                     </div>
@@ -23,7 +32,13 @@
                         <div class="card-body b" >
                             @using (Html.BeginForm("HandleButtonAcq", "Home"))
                             {
-                                <button  type="submit" name="ButtonAcq" class="btn btn-warning btn-block btn-lg" value="1" style="font-size:32px;color:whitesmoke">Acquitement</button>
+                                <button type="submit" name="ButtonAcq" class="button-83-pushable" value="1" role="button">
+                                    <span class="button-83-shadow"></span>
+                                    <span class="button-83-edge"></span>
+                                    <span class="button-83-front text">
+                                        Acquitement
+                                    </span>
+                                </button>
                             }
                         </div>
                     </div>
@@ -31,7 +46,13 @@
                         <div class="card-body b">
                             @using (Html.BeginForm("HandleButtonOff", "Home"))
                                 {
-                                <button type="submit" name="ButtonOff" class="btn btn-danger btn-lg btn-block" value="1" style="font-size:32px;color:whitesmoke">Eteindre</button>
+                                <button type="submit" name="ButtonOff" class="button-84-pushable" value="1" role="button">
+                                    <span class="button-84-shadow"></span>
+                                    <span class="button-84-edge"></span>
+                                    <span class="button-84-front text">
+                                        Eteindre
+                                    </span>
+                                </button>
                                 }
                         </div>
                     </div>

@@ -50,7 +50,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseHsts(); //J'ai retiré ça car cela casse mon app quand je la publie !
 }
 
 app.UseHttpsRedirection();
@@ -89,7 +89,7 @@ void AddAuthorizationPolicies(IServiceCollection services)
 
 public class Startup
 {
-    IWebHostEnvironment HostingEnv;
+    readonly IWebHostEnvironment HostingEnv;
     public Startup(IWebHostEnvironment env)
     {
         HostingEnv = env;
@@ -112,7 +112,7 @@ public class Startup
         });
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         // Configuration de l'environnement d'exécution
         if (env.IsDevelopment())

@@ -35,6 +35,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            builder. Property(u => u.Prenom).HasMaxLength(128); //c'est ici que l'on créee les propriété des champs principaux 
+            builder. Property(u => u.Prenom).HasMaxLength(128); //c'est ici que l'on crée les propriétées des champs principaux 
         }
     }
