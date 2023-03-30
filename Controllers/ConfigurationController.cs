@@ -33,46 +33,48 @@ namespace Flexi_Arm.Controllers
         [Authorize(Policy = "RequireAdmin")]
         public ActionResult COM_Flexibowl(string ip_flexi, int port, string message)
         {
-            // Variable pour la tentative de connexion
+            // Tentative de connexion
             int a = 0;
 
-        // Label pour la boucle de connexion
-        connection:
-            try
+            // Boucle de connexion
+            while (a < 3)
             {
-                // Commandes à envoyer au Flexibowl
-                string StrCommand = "servo=1" + Convert.ToChar(13);
-                SendCommand(StrCommand);
-
-                StrCommand = "angle=200" + Convert.ToChar(13);
-                SendCommand(StrCommand);
-
-                StrCommand = "speed=20"  + Convert.ToChar(13);
-                SendCommand(StrCommand);
-
-                StrCommand = "acc=20" + Convert.ToChar(13);
-                SendCommand(StrCommand);
-
-                StrCommand = "dec=20" + Convert.ToChar(13);
-                SendCommand(StrCommand);
-
-                StrCommand = "forward=1" + Convert.ToChar(13);
-                SendCommand(StrCommand);
-
-            }
-            catch (Exception)
-            {
-                // Boucle de connexion si la tentative précédente a échoué
-                while (a != 1)
+                try
                 {
+                    // Commandes à envoyer au Flexibowl
+                    string StrCommand = "servo=1" + Convert.ToChar(13);
+                    SendCommand(StrCommand);
+
+                    StrCommand = "angle=200" + Convert.ToChar(13);
+                    SendCommand(StrCommand);
+
+                    StrCommand = "speed=20" + Convert.ToChar(13);
+                    SendCommand(StrCommand);
+
+                    StrCommand = "acc=20" + Convert.ToChar(13);
+                    SendCommand(StrCommand);
+
+                    StrCommand = "dec=20" + Convert.ToChar(13);
+                    SendCommand(StrCommand);
+
+                    StrCommand = "forward=1" + Convert.ToChar(13);
+                    SendCommand(StrCommand);
+
+                    // Si tout se passe bien, on sort de la boucle
+                    break;
+                }
+                catch (Exception)
+                {
+                    // Si une erreur se produit, on continue la boucle
                     a++;
-                    goto connection;
                 }
             }
-            //Log here
+
+            //Logging (journal)
             var username = HttpContext.User.Identity.Name;
-            _logger.LogInformation((EventId)200, "Commande de l'utilisateur:{user} à l'adresse ip:{ip} sur le port {port} le {date}", username, ip_flexi, port,DateTime.Now);
-            Log.Information("L'utilisateur envoie une requete UDP au flexibowl");
+            _logger.LogInformation((EventId)200, "Commande de l'utilisateur:{user} à l'adresse ip:{ip} sur le port {port} le {date}", username, ip_flexi, port, DateTime.Now);
+            Log.Warning("L'utilisateur envoie une requete UDP au flexibowl"); //activer si message custom.
+
             // Redirige vers l'action Flexibowl
             return RedirectToAction("Flexibowl");
         }

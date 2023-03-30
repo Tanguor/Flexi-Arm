@@ -33,9 +33,13 @@ AddAuthorizationPolicies(builder.Services);
 
 #endregion
 
-Log.Logger = new LoggerConfiguration()
-.WriteTo.File("C:\\Users\\tanguy.lebret\\source\\repos\\Flexi-Arm(21-03)\\Logs\\FlexiArmLog-.log", rollingInterval: RollingInterval.Day)
+//utilisation  de serilog pour récupérer un fichier de log.
+Log.Logger = new LoggerConfiguration() //version ciblé
+    .MinimumLevel.Warning()
+//var _logger = new LoggerConfiguration() ( version générale logging général )
+.WriteTo.File("Logs\\FlexiArmLog-.log", rollingInterval: RollingInterval.Day)
 .CreateLogger();
+//builder.Logging.AddSerilog(_logger) (version générale du logging)
 
 builder.Services.AddRazorPages();
 
@@ -103,6 +107,9 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddMvc(options => {
+            options.EnableEndpointRouting = false;
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
