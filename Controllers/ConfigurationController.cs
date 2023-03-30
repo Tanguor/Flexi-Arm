@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection.Metadata;
 using System.Text;
+using Serilog;
+
 
 namespace Flexi_Arm.Controllers
 {
@@ -70,7 +72,7 @@ namespace Flexi_Arm.Controllers
             //Log here
             var username = HttpContext.User.Identity.Name;
             _logger.LogInformation((EventId)200, "Commande de l'utilisateur:{user} à l'adresse ip:{ip} sur le port {port} le {date}", username, ip_flexi, port,DateTime.Now);
-
+            Log.Information("L'utilisateur envoie une requete UDP au flexibowl");
             // Redirige vers l'action Flexibowl
             return RedirectToAction("Flexibowl");
         }

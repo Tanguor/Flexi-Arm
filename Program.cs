@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NReco.Logging.File;
+using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -32,6 +33,9 @@ AddAuthorizationPolicies(builder.Services);
 
 #endregion
 
+Log.Logger = new LoggerConfiguration()
+.WriteTo.File("C:\\Users\\tanguy.lebret\\source\\repos\\Flexi-Arm(21-03)\\Logs\\FlexiArmLog-.log", rollingInterval: RollingInterval.Day)
+.CreateLogger();
 
 builder.Services.AddRazorPages();
 
@@ -99,32 +103,6 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddLogging(loggingBuilder => {
-            var loggingSection = Configuration.GetSection("Logging");
-            loggingBuilder.AddConfiguration(loggingSection);
-            loggingBuilder.AddConsole();
-
-            Action<FileLoggerOptions> resolveRelativeLoggingFilePath = (fileOpts) => {
-                fileOpts.FormatLogFileName = fName => {
-                    return Path.IsPathRooted(fName) ? fName : Path.Combine(HostingEnv.ContentRootPath, fName);
-                };
-            };
-
-            loggingBuilder.AddFile(loggingSection.GetSection("FileOne"), resolveRelativeLoggingFilePath);
-            loggingBuilder.AddFile(loggingSection.GetSection("FileTwo"), resolveRelativeLoggingFilePath);
-
-            // alternatively, you can configure 2nd file logger (or both) in the code:
-            /*loggingBuilder.AddFile("logs/app_debug.log", (fileOpts) => {
-                fileOpts.MinLevel = LogLevel.Debug;
-                resolveRelativeLoggingFilePath(fileOpts);
-            });*/
-
-        });
-
-        services.AddMvc(options => {
-            options.EnableEndpointRouting = false;
-        });
-
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)

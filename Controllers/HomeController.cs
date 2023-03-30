@@ -115,7 +115,7 @@ public class HomeController : Controller
             Console.WriteLine("sending data to server...");
 
             StreamReader sr = new StreamReader(stream);
-            string response = sr.ReadLine();
+                string response = sr.ReadLine();
             Console.WriteLine(response);
 
             stream.Close();
