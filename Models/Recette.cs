@@ -6,6 +6,7 @@ public class Recette
 {
     [Key] // Définit la clé primaire de la table
     public int Id { get; set; }
+
     [Required] // Indique que la propriété est obligatoire
     [Display(Name = "Nom")] // Définit le nom à afficher dans l'interface utilisateur
     [StringLength(50)] // Définit la longueur maximale de la chaîne

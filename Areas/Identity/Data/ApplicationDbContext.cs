@@ -26,7 +26,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
     }
 
-    public DbSet<Flexi_Arm.Models.Recette>? Recette { get; set; }
+    public DbSet<Recette>? Recette { get; set; }
+
+    public DbSet<CommunicationModel>? CommunicationModel { get; set; }
 }
 
 //champ ou l'on configure l'inscription d'inscription details: https://www.youtube.com/watch?v=I-ZzFLruiuo&ab_channel=ISeeSharp 
