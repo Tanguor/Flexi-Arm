@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Flexi_Arm.Areas.Communication.Data;
 
 // Add profile data for application users by adding properties to the ApplicationRecette class
-public class ApplicationRecette : Flexibowl
+public class ApplicationRecette : CommunicationModel
 {
     //ajoute un champ nom pour la connexion
     public string CommunicationModel { get; set; }

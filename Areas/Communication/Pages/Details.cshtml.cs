@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Flexi_Arm.Areas.Identity.Data;
 using Flexi_Arm.Models;
 
-namespace Flexi_Arm.Areas.Communication_Camera.Pages
+namespace Flexi_Arm.Areas.Communication.Pages
 {
     public class DetailsModel : PageModel
     {
@@ -19,23 +19,23 @@ namespace Flexi_Arm.Areas.Communication_Camera.Pages
             _context = context;
         }
 
-      public Camera Camera { get; set; } = default!; 
+      public CommunicationModel CommunicationModel { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Camera == null)
+            if (id == null || _context.CommunicationModel == null)
             {
                 return NotFound();
             }
 
-            var camera = await _context.Camera.FirstOrDefaultAsync(m => m.Id_Camera == id);
-            if (camera == null)
+            var communicationmodel = await _context.CommunicationModel.FirstOrDefaultAsync(m => m.Id == id);
+            if (communicationmodel == null)
             {
                 return NotFound();
             }
             else 
             {
-                Camera = camera;
+                CommunicationModel = communicationmodel;
             }
             return Page();
         }

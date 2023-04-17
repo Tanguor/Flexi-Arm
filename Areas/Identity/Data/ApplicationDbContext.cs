@@ -28,11 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Recette>? Recette { get; set; }
 
-    public DbSet<Flexibowl>? Flexibowl { get; set; }
-
-    public DbSet<Bras_Robot>? Bras_Robot { get; set; }
-
-    public DbSet<Camera>? Camera { get; set; }
+    public DbSet<CommunicationModel>? CommunicationModel { get; set; }
 }
 
 //champ ou l'on configure l'inscription d'inscription details: https://www.youtube.com/watch?v=I-ZzFLruiuo&ab_channel=ISeeSharp 

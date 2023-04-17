@@ -20,15 +20,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Recette[0].Description)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Recette[0].id_Flexi)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Recette[0].id_Robot)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Recette[0].Id_Camera)
-                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -41,15 +32,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.Flexibowl[item.id_Flexi - 1].Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.Bras_Robot[item.id_Robot - 1].Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => model.Camera[item.Id_Camera - 1].Name)
                             </td>
                             <td>
                                 <a asp-page="./Edit" asp-route-id="@item.Id">Editer</a> |

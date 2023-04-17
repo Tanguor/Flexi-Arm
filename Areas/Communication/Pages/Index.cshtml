@@ -14,26 +14,26 @@
 <p>
     <a asp-page="Create">Nouveau</a> |
 </p>
-<table class="table table-dark table-striped table-bordered table-hover">
+<table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Flexibowl[0].Name)
+                @Html.DisplayNameFor(model => model.CommunicationModel[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Flexibowl[0].Ip)
+                @Html.DisplayNameFor(model => model.CommunicationModel[0].Ip)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Flexibowl[0].Port)
+                @Html.DisplayNameFor(model => model.CommunicationModel[0].Port)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Flexibowl[0].Modele_flexibowl)
+                @Html.DisplayNameFor(model => model.CommunicationModel[0].Modele_flexibowl)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Flexibowl)
+        @foreach (var item in Model.CommunicationModel)
         {
             <tr>
                 <td>
@@ -49,9 +49,9 @@
                     @Html.DisplayFor(modelItem => item.Modele_flexibowl)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id_flexi">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id_flexi">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id_flexi">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }

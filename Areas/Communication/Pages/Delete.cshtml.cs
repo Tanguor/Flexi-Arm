@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Flexi_Arm.Areas.Identity.Data;
 using Flexi_Arm.Models;
 
-namespace Flexi_Arm.Areas.Communication_Camera.Pages
+namespace Flexi_Arm.Areas.Communication.Pages
 {
     public class DeleteModel : PageModel
     {
@@ -20,40 +20,40 @@ namespace Flexi_Arm.Areas.Communication_Camera.Pages
         }
 
         [BindProperty]
-      public Camera Camera { get; set; } = default!;
+      public CommunicationModel CommunicationModel { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Camera == null)
+            if (id == null || _context.CommunicationModel == null)
             {
                 return NotFound();
             }
 
-            var camera = await _context.Camera.FirstOrDefaultAsync(m => m.Id_Camera == id);
+            var communicationmodel = await _context.CommunicationModel.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (camera == null)
+            if (communicationmodel == null)
             {
                 return NotFound();
             }
             else 
             {
-                Camera = camera;
+                CommunicationModel = communicationmodel;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Camera == null)
+            if (id == null || _context.CommunicationModel == null)
             {
                 return NotFound();
             }
-            var camera = await _context.Camera.FindAsync(id);
+            var communicationmodel = await _context.CommunicationModel.FindAsync(id);
 
-            if (camera != null)
+            if (communicationmodel != null)
             {
-                Camera = camera;
-                _context.Camera.Remove(Camera);
+                CommunicationModel = communicationmodel;
+                _context.CommunicationModel.Remove(CommunicationModel);
                 await _context.SaveChangesAsync();
             }
 

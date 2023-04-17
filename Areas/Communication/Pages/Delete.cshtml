@@ -14,33 +14,33 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Flexibowl.Name)
+            @Html.DisplayNameFor(model => model.CommunicationModel.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Flexibowl.Name)
+            @Html.DisplayFor(model => model.CommunicationModel.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Flexibowl.Ip)
+            @Html.DisplayNameFor(model => model.CommunicationModel.Ip)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Flexibowl.Ip)
+            @Html.DisplayFor(model => model.CommunicationModel.Ip)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Flexibowl.Port)
+            @Html.DisplayNameFor(model => model.CommunicationModel.Port)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Flexibowl.Port)
+            @Html.DisplayFor(model => model.CommunicationModel.Port)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Flexibowl.Modele_flexibowl)
+            @Html.DisplayNameFor(model => model.CommunicationModel.Modele_flexibowl)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Flexibowl.Modele_flexibowl)
+            @Html.DisplayFor(model => model.CommunicationModel.Modele_flexibowl)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="Flexibowl.Id_flexi" />
+        <input type="hidden" asp-for="CommunicationModel.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-page="./Index">Back to List</a>
     </form>

@@ -22,18 +22,12 @@ namespace Flexi_Arm.Areas.Recettes.Pages
         }
 
         public IList<Recette> Recette { get;set; } = default!;
-        public IList<Flexibowl> Flexibowl { get; set; } = default!;
-        public IList<Bras_Robot> Bras_Robot { get; set; } = default!;
-        public IList<Camera> Camera { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Recette != null)
             {
                 Recette = await _context.Recette.ToListAsync();
-                Flexibowl = await _context.Flexibowl.ToListAsync();
-                Bras_Robot = await _context.Bras_Robot.ToListAsync();
-                Camera = await _context.Camera.ToListAsync();
             }
         }
     }

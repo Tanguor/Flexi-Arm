@@ -20,9 +20,4 @@
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Communication_Camera\Data\" />
-    <Folder Include="Areas\Communication_Robot\Data\" />
-  </ItemGroup>
-
 </Project>
