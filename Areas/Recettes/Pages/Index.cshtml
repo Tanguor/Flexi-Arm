@@ -24,22 +24,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Recette)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                <a asp-page="./Edit" asp-route-id="@item.Id">Editer</a> |
-                                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-page="./Delete" asp-route-id="@item.Id">Supprimer</a>
-                            </td>
-                        </tr>
-                    }
+            @foreach (var item in Model.Recette) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Editer</a> |
+                            <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.Id">Supprimer</a>
+                        </td>
+                    </tr>
+            }
                 </tbody>
             </table>
         </div>
@@ -49,8 +48,7 @@
                     Recette séléctionnée
                 </button>
                 <ul class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    @foreach (var item in Model.Recette)
-                    {
+                    @foreach (var item in Model.Recette){
                         <li>
                             @using (Html.BeginForm("RecetteSlct", "Recettes"))
                             {
