@@ -19,13 +19,13 @@ namespace Flexi_Arm.Areas.Communication.Pages
             _context = context;
         }
 
-        public IList<CommunicationModel> CommunicationModel { get;set; } = default!;
+        public IList<Flexibowl> Flexibowl { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.CommunicationModel != null)
+            if (_context.Flexibowl != null)
             {
-                CommunicationModel = await _context.CommunicationModel.ToListAsync();
+                Flexibowl = await _context.Flexibowl.ToListAsync();
             }
         }
     }

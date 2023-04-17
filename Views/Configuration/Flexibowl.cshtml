@@ -2,16 +2,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&display=swap" rel="stylesheet">
 <br />
 
-@model IEnumerable<Flexi_Arm.Models.CommunicationModel>
-
-
+@model IEnumerable<Flexi_Arm.Models.Flexibowl>
+<form>
+    <input type="button" class="previous round" value="&#8249;&#8249;" onclick="history.back()">
+    <input type="button" class="next round" value="&#8250;&#8250;" onclick="history.forward()">
+    <h1>Commandes Flexibowl</h1>
+</form>
 
 <div class="container">
     <div class="row flex-row">
         <div class="col-md-6 ">
             <div class="card-body">
                 <div class="light-container  mr-4">
-                    <h2>Flexibowl Configuration Panel</h2>
+                    <h2> @ViewBag.Titre</h2>
 
                     <label class="light-label toggle" for="toggle-button1">
                         Lumière :
@@ -29,7 +32,7 @@
         </div>
         <div class="col-md-6 ">
             <div class="card-body">
-                <a href="~/Communication/">
+                <a href="~/Communication_flexi/">
                     <button class="button-85-pushable" value="1" role="button" style="">
                         <span class="button-85-shadow"></span>
                         <span class="button-85-edge"></span>
@@ -43,7 +46,7 @@
                         <option value="">Sélectionnez un élément</option>
                         @foreach (var item in Model)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            <option value="@item.Id_flexi">@item.Name</option>
                         }
                     </select>
                 </center>

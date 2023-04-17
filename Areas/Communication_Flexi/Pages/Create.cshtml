@@ -1,0 +1,70 @@
+﻿@page
+@model Flexi_Arm.Areas.Communication.Pages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>CommunicationModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.Name" class="control-label"></label>
+                <input asp-for="Flexibowl.Name" class="form-control" />
+                <span asp-validation-for="Flexibowl.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.Ip" class="control-label"></label>
+                <input asp-for="Flexibowl.Ip" class="form-control" />
+                <span asp-validation-for="Flexibowl.Ip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.Port" class="control-label"></label>
+                <input asp-for="Flexibowl.Port" class="form-control" />
+                <span asp-validation-for="Flexibowl.Port" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.Modele_flexibowl" class="control-label"></label>
+                <input asp-for="Flexibowl.Modele_flexibowl" class="form-control" />
+                <span asp-validation-for="Flexibowl.Modele_flexibowl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.sh_speed" class="control-label"></label>
+                <input asp-for="Flexibowl.sh_speed" class="form-control" />
+                <span asp-validation-for="Flexibowl.sh_speed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.sh_count" class="control-label"></label>
+                <input asp-for="Flexibowl.sh_count" class="form-control" />
+                <span asp-validation-for="Flexibowl.sh_count" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.cww_angle" class="control-label"></label>
+                <input asp-for="Flexibowl.cww_angle" class="form-control" />
+                <span asp-validation-for="Flexibowl.cww_angle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flexibowl.cw_angle" class="control-label"></label>
+                <input asp-for="Flexibowl.cw_angle" class="form-control" />
+                <span asp-validation-for="Flexibowl.cw_angle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Flexi_Arm.Areas.Identity.Data;
 using Flexi_Arm.Models;
 
-namespace Flexi_Arm.Areas.Communication.Pages
+namespace Flexi_Arm.Areas.Communication_Robot.Pages
 {
     public class CreateModel : PageModel
     {
@@ -25,18 +25,18 @@ namespace Flexi_Arm.Areas.Communication.Pages
         }
 
         [BindProperty]
-        public CommunicationModel CommunicationModel { get; set; } = default!;
+        public Bras_Robot Bras_Robot { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.CommunicationModel == null || CommunicationModel == null)
+          if (!ModelState.IsValid || _context.Bras_Robot == null || Bras_Robot == null)
             {
                 return Page();
             }
 
-            _context.CommunicationModel.Add(CommunicationModel);
+            _context.Bras_Robot.Add(Bras_Robot);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

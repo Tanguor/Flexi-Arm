@@ -7,11 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Flexi_Arm.Areas.Identity.Data;
 using Flexi_Arm.Models;
-using Microsoft.AspNetCore.Authorization;
 
-namespace Flexi_Arm.Areas.Recettes.Pages
+namespace Flexi_Arm.Areas.Communication_Robot.Pages
 {
-    [Authorize(Policy = "RequireMaintenance")]
     public class IndexModel : PageModel
     {
         private readonly Flexi_Arm.Areas.Identity.Data.ApplicationDbContext _context;
@@ -21,21 +19,14 @@ namespace Flexi_Arm.Areas.Recettes.Pages
             _context = context;
         }
 
-        public IList<Recette> Recette { get;set; } = default!;
-        public IList<Flexibowl> Flexibowl { get; set; } = default!;
-        public IList<Bras_Robot> Bras_Robot { get; set; } = default!;
-        public IList<Camera> Camera { get; set; } = default!;
+        public IList<Bras_Robot> Bras_Robot { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Recette != null)
+            if (_context.Bras_Robot != null)
             {
-                Recette = await _context.Recette.ToListAsync();
-                Flexibowl = await _context.Flexibowl.ToListAsync();
                 Bras_Robot = await _context.Bras_Robot.ToListAsync();
-                Camera = await _context.Camera.ToListAsync();
             }
         }
     }
 }
-

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Sockets;
 using System.Text;
 using Serilog;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
 using Flexi_Arm.Models;
 
 namespace Flexi_Arm.Controllers
@@ -20,21 +18,24 @@ namespace Flexi_Arm.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            var elt = _context.CommunicationModel;
-            return View(elt);
-        }
-
         // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]
         public IActionResult Flexibowl()
         {
-            var elt = _context.CommunicationModel;
-            // Retourne la vue Flexibowl
-            return View(elt);
-        }
+            var elt = _context.Flexibowl;
+            var Id_slct = TempData["_IdSlct"];
+            if (Id_slct == null) { Id_slct = 1; };
+            int.TryParse(Id_slct.ToString(), out int id);
+            var element = _context.Flexibowl.FirstOrDefault(e => e.Id_flexi == id);
+            if (element == null)
+            {
+                return NotFound();
+            }
 
+            ViewBag.Titre = "Le Flexibowl type " + element.Modele_flexibowl +" est chargé";
+            var listElements = new List<Flexibowl> { element }; // Création d'une liste avec l'élément unique
+            return View(elt ) ; // Passage de la liste à la vue
+        }
         public IActionResult Selected(int? id)
         {
             if (id == null)
@@ -42,8 +43,8 @@ namespace Flexi_Arm.Controllers
                 return NotFound();
             }
 
-            var communicationModel = _context.CommunicationModel
-                .FirstOrDefault(m => m.Id == id);
+            var communicationModel = _context.Flexibowl
+                .FirstOrDefault(m => m.Id_flexi == id);
 
             if (communicationModel == null)
             {
@@ -52,7 +53,7 @@ namespace Flexi_Arm.Controllers
             else
             {
 
-                TempData["_IdSlct"] = communicationModel.Id;
+                TempData["_IdSlct"] = communicationModel.Id_flexi;
 
                 return RedirectToAction("Flexibowl");
             }
@@ -68,7 +69,42 @@ namespace Flexi_Arm.Controllers
 
         public IActionResult Bras_Robot()
         {
-            return View();
+            var elt = _context.Bras_Robot;
+            var Id_slct = TempData["_IdSlctR"];
+            if (Id_slct == null) { Id_slct = 1; };
+            int.TryParse(Id_slct.ToString(), out int id);
+            var element = _context.Bras_Robot.FirstOrDefault(e => e.Id_Robot == id);
+            if (element == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Titre = "Le Robot type " + element.Modele_Robot + " est chargé";
+            var listElements = new List<Bras_Robot> { element }; // Création d'une liste avec l'élément unique
+            return View(elt); // Passage de la liste à la vue
+        }
+        public IActionResult SelectedR(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var bras_Robot = _context.Bras_Robot
+                .FirstOrDefault(m => m.Id_Robot == id);
+
+            if (bras_Robot == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+
+                TempData["_IdSlctR"] = bras_Robot.Id_Robot;
+
+                return RedirectToAction("Bras_Robot");
+            }
+
         }
 
         [HttpPost]
@@ -102,6 +138,8 @@ namespace Flexi_Arm.Controllers
         }
 
         [HttpPost]
+
+        //commande Flexibowl
         public IActionResult AllumerLumiere(bool toggle)
         {
             if (toggle == true)
@@ -136,7 +174,40 @@ namespace Flexi_Arm.Controllers
 
         }
 
+        //commande bras robot
 
+        public IActionResult AllumerBras(bool toggle)
+        {
+            if (toggle == true)
+            {
+                string strCommand = "servo=1" + Convert.ToChar(13);
+                SendCommandTCP(strCommand);
+                return Ok("Le moteur est Allumée");
+            }
+            else
+            {
+                string strCommand = "servo=0" + Convert.ToChar(13);
+                SendCommandTCP(strCommand);
+                return Ok("Le moteur est Eteint");
+            }
+
+        }
+        public IActionResult PuissanceBras(bool toggle)
+        {
+            if (toggle == true)
+            {
+                string strCommand = "servo=1" + Convert.ToChar(13);
+                SendCommandTCP(strCommand);
+                return Ok("Le moteur est Allumée");
+            }
+            else
+            {
+                string strCommand = "servo=0" + Convert.ToChar(13);
+                SendCommandTCP(strCommand);
+                return Ok("Le moteur est Eteint");
+            }
+
+        }
 
         // Compteur pour le message envoyé à l'adresse de diffusion
         static int H = 0;
@@ -223,9 +294,9 @@ namespace Flexi_Arm.Controllers
         // Méthode pour envoyer des commandes au Flexibowl
         private void SendCommand(string StrCommand)
         {
-            var Id = TempData["_IdSlct"];
+            var Id = TempData["_IdSlctR"];
             if (Id == null) { Id = 1; };
-            var communication = _context.CommunicationModel.Find(Id);
+            var communication = _context.Flexibowl.Find(Id);
             var ip = communication.Ip;
             var port = communication.Port;
             // Crée un client UDP
@@ -260,6 +331,41 @@ namespace Flexi_Arm.Controllers
 
             // Incrémente le compteur pour le message envoyé
             H++; 
+        }
+
+        private void SendCommandTCP(string StrCommand)
+        {
+            var Id = TempData["_IdSlctR"];
+            if (Id == null) { Id = 1; };
+            var communication = _context.Bras_Robot.Find(Id);
+            var ip = communication.Ip;
+            var port = communication.Port;
+            // Crée un client TCP/IP
+            TcpClient tcpClient = new TcpClient(ip.ToString(), port);
+
+            // Convertit la commande en byte[] et l'envoie
+            byte[] b = Encoding.ASCII.GetBytes(StrCommand);
+            NetworkStream stream = tcpClient.GetStream();
+            stream.Write(b, 0, b.Length);
+
+            // Attend une demi-seconde avant d'afficher un message dans la console
+            Thread.Sleep(50);
+
+            // Affiche un message dans la console
+            if (H == 1)
+            {
+                Console.WriteLine(H + " er message sent to the server");
+            }
+            else
+            {
+                Console.WriteLine(H + "ème message sent to the server");
+            }
+
+            // Incrémente le compteur pour le message envoyé
+            H++;
+
+            // Ferme le client TCP/IP
+            tcpClient.Close();
         }
     }
 }

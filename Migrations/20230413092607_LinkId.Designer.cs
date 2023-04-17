@@ -4,6 +4,7 @@ using Flexi_Arm.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Flexi_Arm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230413092607_LinkId")]
+    partial class LinkId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,12 +118,6 @@ namespace Flexi_Arm.Migrations
                     b.Property<int>("Port")
                         .HasColumnType("int");
 
-                    b.Property<int>("speedapproach")
-                        .HasColumnType("int");
-
-                    b.Property<int>("speedfree")
-                        .HasColumnType("int");
-
                     b.HasKey("Id_Robot");
 
                     b.ToTable("Bras_Robot");
@@ -178,18 +174,6 @@ namespace Flexi_Arm.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Port")
-                        .HasColumnType("int");
-
-                    b.Property<int>("cw_angle")
-                        .HasColumnType("int");
-
-                    b.Property<int>("cww_angle")
-                        .HasColumnType("int");
-
-                    b.Property<int>("sh_count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("sh_speed")
                         .HasColumnType("int");
 
                     b.HasKey("Id_flexi");

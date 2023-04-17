@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Flexi_Arm.Areas.Identity.Data;
 using Flexi_Arm.Models;
 
-namespace Flexi_Arm.Areas.Communication.Pages
+namespace Flexi_Arm.Areas.Communication_Robot.Pages
 {
     public class EditModel : PageModel
     {
@@ -21,21 +21,21 @@ namespace Flexi_Arm.Areas.Communication.Pages
         }
 
         [BindProperty]
-        public CommunicationModel CommunicationModel { get; set; } = default!;
+        public Bras_Robot Bras_Robot { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.CommunicationModel == null)
+            if (id == null || _context.Bras_Robot == null)
             {
                 return NotFound();
             }
 
-            var communicationmodel =  await _context.CommunicationModel.FirstOrDefaultAsync(m => m.Id == id);
-            if (communicationmodel == null)
+            var bras_robot =  await _context.Bras_Robot.FirstOrDefaultAsync(m => m.Id_Robot == id);
+            if (bras_robot == null)
             {
                 return NotFound();
             }
-            CommunicationModel = communicationmodel;
+            Bras_Robot = bras_robot;
             return Page();
         }
 
@@ -48,7 +48,7 @@ namespace Flexi_Arm.Areas.Communication.Pages
                 return Page();
             }
 
-            _context.Attach(CommunicationModel).State = EntityState.Modified;
+            _context.Attach(Bras_Robot).State = EntityState.Modified;
 
             try
             {
@@ -56,7 +56,7 @@ namespace Flexi_Arm.Areas.Communication.Pages
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CommunicationModelExists(CommunicationModel.Id))
+                if (!Bras_RobotExists(Bras_Robot.Id_Robot))
                 {
                     return NotFound();
                 }
@@ -69,9 +69,9 @@ namespace Flexi_Arm.Areas.Communication.Pages
             return RedirectToPage("./Index");
         }
 
-        private bool CommunicationModelExists(int id)
+        private bool Bras_RobotExists(int id)
         {
-          return (_context.CommunicationModel?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Bras_Robot?.Any(e => e.Id_Robot == id)).GetValueOrDefault();
         }
     }
 }

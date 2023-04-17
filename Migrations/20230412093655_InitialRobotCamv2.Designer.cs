@@ -4,6 +4,7 @@ using Flexi_Arm.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Flexi_Arm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230412093655_InitialRobotCamv2")]
+    partial class InitialRobotCamv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,11 +96,11 @@ namespace Flexi_Arm.Migrations
 
             modelBuilder.Entity("Flexi_Arm.Models.Bras_Robot", b =>
                 {
-                    b.Property<int>("Id_Robot")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Robot"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Ip")
                         .IsRequired()
@@ -116,24 +118,18 @@ namespace Flexi_Arm.Migrations
                     b.Property<int>("Port")
                         .HasColumnType("int");
 
-                    b.Property<int>("speedapproach")
-                        .HasColumnType("int");
-
-                    b.Property<int>("speedfree")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id_Robot");
+                    b.HasKey("Id");
 
                     b.ToTable("Bras_Robot");
                 });
 
             modelBuilder.Entity("Flexi_Arm.Models.Camera", b =>
                 {
-                    b.Property<int>("Id_Camera")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Camera"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Ip")
                         .IsRequired()
@@ -151,18 +147,18 @@ namespace Flexi_Arm.Migrations
                     b.Property<int>("Port")
                         .HasColumnType("int");
 
-                    b.HasKey("Id_Camera");
+                    b.HasKey("Id");
 
                     b.ToTable("Camera");
                 });
 
-            modelBuilder.Entity("Flexi_Arm.Models.Flexibowl", b =>
+            modelBuilder.Entity("Flexi_Arm.Models.CommunicationModel", b =>
                 {
-                    b.Property<int>("Id_flexi")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_flexi"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Ip")
                         .IsRequired()
@@ -180,21 +176,9 @@ namespace Flexi_Arm.Migrations
                     b.Property<int>("Port")
                         .HasColumnType("int");
 
-                    b.Property<int>("cw_angle")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.Property<int>("cww_angle")
-                        .HasColumnType("int");
-
-                    b.Property<int>("sh_count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("sh_speed")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id_flexi");
-
-                    b.ToTable("Flexibowl");
+                    b.ToTable("CommunicationModel");
                 });
 
             modelBuilder.Entity("Flexi_Arm.Models.Recette", b =>
@@ -209,19 +193,10 @@ namespace Flexi_Arm.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id_Camera")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("id_Flexi")
-                        .HasColumnType("int");
-
-                    b.Property<int>("id_Robot")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
