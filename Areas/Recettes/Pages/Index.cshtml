@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 style="color:#004087; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" class="underline">Liste des recettes</h1>
+<h1 style="color:#004087; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif" >Liste des recettes</h1>
 
 <div class="container-fluid">
     <div class="row">
@@ -16,6 +16,9 @@
                     <tr>
                         <th>
                             @Html.DisplayNameFor(model => model.Recette[0].Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Recette[0].Jobs)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Recette[0].Description)
@@ -41,6 +44,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Jobs)
                             </td>
                             <td>
                                 @Html.DisplayFor(model => model.Flexibowl[item.id_Flexi - 1].Name)

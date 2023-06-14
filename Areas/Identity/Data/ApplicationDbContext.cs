@@ -1,9 +1,7 @@
-﻿using Flexi_Arm.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Flexi_Arm.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Flexi_Arm.Models;
 
 namespace Flexi_Arm.Areas.Identity.Data;
 
@@ -21,7 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
 
-        
+
         //permet la configuration de nouveaux champs d'insciption
         builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
     }
@@ -37,10 +35,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
 //champ ou l'on configure l'inscription d'inscription details: https://www.youtube.com/watch?v=I-ZzFLruiuo&ab_channel=ISeeSharp 
 
-    public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUser>
+public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUser>
+{
+    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
-        {
-            builder. Property(u => u.Prenom).HasMaxLength(128); //c'est ici que l'on crée les propriétées des champs principaux 
-        }
+        builder.Property(u => u.Prenom).HasMaxLength(128); //c'est ici que l'on crée les propriétées des champs principaux 
     }
+}

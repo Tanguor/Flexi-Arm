@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using Serilog;
 using Flexi_Arm.Models;
+using System.Net;
 
 namespace Flexi_Arm.Controllers
 {
@@ -36,29 +37,36 @@ namespace Flexi_Arm.Controllers
             var listElements = new List<Flexibowl> { element }; // Création d'une liste avec l'élément unique
             return View(elt ) ; // Passage de la liste à la vue
         }
+        // La méthode d'action Selected prend un argument id de type int nullable.
         public IActionResult Selected(int? id)
         {
+            // Vérifie si l'id passé est null
             if (id == null)
             {
+                // Si l'id est null, elle renvoie une réponse NotFound (404).
                 return NotFound();
             }
 
+            // Si l'id n'est pas null, tente de trouver le premier Flexibowl qui a cet id.
             var communicationModel = _context.Flexibowl
                 .FirstOrDefault(m => m.Id_flexi == id);
 
+            // Vérifie si un Flexibowl avec cet id existe
             if (communicationModel == null)
             {
+                // Si aucun Flexibowl avec cet id n'est trouvé, renvoie également NotFound.
                 return NotFound();
             }
             else
             {
-
+                // Si un Flexibowl est trouvé, stocke son id dans TempData sous la clé "_IdSlct"
                 TempData["_IdSlct"] = communicationModel.Id_flexi;
 
+                // Redirige l'utilisateur vers l'action "Flexibowl"
                 return RedirectToAction("Flexibowl");
             }
-
         }
+
 
 
         public IActionResult Systeme_Vision()
@@ -110,7 +118,6 @@ namespace Flexi_Arm.Controllers
         [HttpPost]
         public IActionResult Logs()
         {
-            // Remplacez "chemin_du_fichier" par le chemin d'accès réel de votre fichier de journalisation
             string logFilePath = "Logs\\FlexiArmLog-" + DateTime.Now.ToString("yyyyMMdd") + ".log";
             string logContent;
 
@@ -122,7 +129,6 @@ namespace Flexi_Arm.Controllers
 
             return View("Logs", logContent);
         }
-
 
         // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]
@@ -341,7 +347,7 @@ namespace Flexi_Arm.Controllers
             var ip = communication.Ip;
             var port = communication.Port;
             // Crée un client TCP/IP
-            TcpClient tcpClient = new TcpClient(ip.ToString(), port);
+            TcpClient tcpClient = new TcpClient(hostname: ip.ToString(), port: port);
 
             // Convertit la commande en byte[] et l'envoie
             byte[] b = Encoding.ASCII.GetBytes(StrCommand);

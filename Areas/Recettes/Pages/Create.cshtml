@@ -25,6 +25,11 @@
                 <span asp-validation-for="Recette.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Recette.Jobs" class="control-label"></label>
+                <input asp-for="Recette.Jobs" class="form-control" />
+                <span asp-validation-for="Recette.Jobs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Recette.id_Flexi" class="control-label"></label>
                 <input asp-for="Recette.id_Flexi" class="form-control" />
                 <span asp-validation-for="Recette.id_Flexi" class="text-danger"></span>
@@ -51,6 +56,9 @@
     <a asp-page="Index">Revenir à la liste</a>
 </div>
 
+<a>
+    <button onclick="window.location='http://192.168.0.1/#!page=run';">>>>Creation de jobs (Set d'image) pour la Caméra <<< </button>
+</a>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

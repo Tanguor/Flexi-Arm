@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
                     <img src="~/docs/Camera.png" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -24,9 +24,9 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
-                    <img src="~/docs/flexibowl.png" class="card-img-top" alt="Robot Epson"  />
+                    <img src="~/docs/flexibowl.png" class="card-img-top" alt="Robot Epson" />
                     <div class="card-body">
                         <h5 class="card-title">Flexibowl.</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
                     <img src="~/docs/robot.png" class="card-img-top" alt="..." />
                     <div class="card-body">
@@ -57,3 +57,30 @@
         </div>
     </div>
 </div>
+<style>
+    .card:hover .card-title {
+        color: #007bff;
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+
+    .card:hover .card-text {
+        color: #6c757d;
+    }
+
+    .card:hover .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .card {
+        height: 100%;
+    }
+</style>

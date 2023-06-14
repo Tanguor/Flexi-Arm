@@ -1,0 +1,62 @@
+﻿@{
+    <form>
+        <input type="button" class="previous round" value="&#8249;&#8249;" onclick="history.back()">
+        <input type="button" class="next round" value="&#8250;&#8250;" onclick="history.forward()">
+        <h1>Données de fonctionnement</h1>
+    </form>
+
+    <div class="card">
+        <div class="card-body" style="background-color:lightgray">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script>
+            const a = 30
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: getLabels(),
+                    datasets: [{
+                        label: 'Pièces en sortie par minutes',
+                        fill: false,
+                        borderColor: 'rgb(0, 0, 0)',
+                        data: getRandomData()
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    borderWidth: "1",
+                    borderColor: "blue",
+                }
+            });
+
+            function getRandomData() {
+                var data = [];
+                for (var i = 0; i < a; i++) {
+                    data.push(Math.floor(Math.random() * (15)) + 12);
+                }
+                return data;
+            }
+
+            function getLabels() {
+                var labels = [];
+                var now = moment();
+                for (var i = 0; i < a; i++) {
+                    labels.push(now.subtract(0, 'minutes').format('HH') + 'h ' + now.subtract(1, 'minutes').format('mm') + 'min');
+                }
+                return labels.reverse();
+            }
+        </script>
+    }
+}

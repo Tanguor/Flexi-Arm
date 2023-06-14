@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
@@ -17,11 +18,13 @@ namespace Flexi_Arm.Controllers
         // Déclaration d'un champ de type ILogger pour gérer les logs
         private readonly ILogger<HomeController> _logger;
         private readonly Areas.Identity.Data.ApplicationDbContext _context;
+        private readonly int _defaultRecetteId;
 
-        public HomeController(ILogger<HomeController> logger, Areas.Identity.Data.ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, Areas.Identity.Data.ApplicationDbContext context, IOptions<DefaultRecetteOptions> options)
         {
             _logger = logger;
             _context = context;
+            _defaultRecetteId = options.Value.Id;
         }
 
         public void OnGet()
@@ -33,7 +36,14 @@ namespace Flexi_Arm.Controllers
         // Action qui retourne la vue Index
         public IActionResult Index()
         {
-            return View();
+
+            // Chercher la recette avec l'id correspondant
+            var recette = _context.Recette.FirstOrDefault(r => r.Id == _defaultRecetteId); // Supposons que la propriété Id existe dans le modèle Recette
+            {
+                return View("Index", recette.Name);
+            }
+            
+
         }
 
         public IActionResult LogPage()
@@ -41,11 +51,6 @@ namespace Flexi_Arm.Controllers
             return View();
         }
 
-        public IActionResult LogMessage(string logLevel, string msg)
-        {
-            _logger.Log((LogLevel)Enum.Parse(typeof(LogLevel), logLevel, true), msg);
-            return Ok();
-        }
 
         // Action qui requiert une autorisation de la politique "RequireAdmin" pour retourner la vue Configuration
         [Authorize(Policy = "RequireAdmin")]
@@ -60,52 +65,15 @@ namespace Flexi_Arm.Controllers
             int b = 0;
             var robotdata = _context.Bras_Robot.Find(3);
             var flexidata = _context.Flexibowl.Find(3);
+            var Jobdata = _context.Recette.Find(5);
+
             //envoies des instructions Robot
-            string StrCommand = "1," + robotdata.speedapproach + "," + robotdata.speedfree + Convert.ToChar(13);
+            string StrCommand = "1," + robotdata.speedapproach + "," + robotdata.speedfree + "," + flexidata.sh_count + "," + flexidata.sh_speed + "," + flexidata.cw_angle + "," + flexidata.cww_angle + "," + Jobdata.Jobs + Convert.ToChar(13);
             SendCommandTCP(StrCommand);
-            while (b == 0)
-            {
-                b = ListenTCP();
-            }
 
             int a = 0;
             //Envoi de la commande au flexibowl
             // Boucle de connexion
-            while (a < 3 && b == 1)
-            {
-            connection:
-                try
-                {
-
-                    // Commandes à envoyer au Flexibowl
-                    StrCommand = "sh_speed=" + flexidata.sh_speed + Convert.ToChar(13);
-                    SendCommand(StrCommand);
-
-                    StrCommand = "cw_angle=" + flexidata.cw_angle + Convert.ToChar(13);
-                    SendCommand(StrCommand);
-
-                    StrCommand = "cww_angle=" + flexidata.cww_angle + Convert.ToChar(13);
-                    SendCommand(StrCommand);
-
-                    StrCommand = "sh_count=" + flexidata.sh_count + Convert.ToChar(13);
-                    SendCommand(StrCommand);
-
-                    StrCommand = "shake=1" + Convert.ToChar(13);
-                    SendCommand(StrCommand);
-
-                    // Si tout se passe bien, on sort de la boucle
-                    break;
-                }
-                catch (Exception)
-                {
-                    // Si une erreur se produit, on continue la boucle
-                    while (a != 2)
-                    {
-                        a++;
-                        goto connection;
-                    }
-                }
-            }
             return RedirectToAction("Index");
         }
 
@@ -234,7 +202,7 @@ namespace Flexi_Arm.Controllers
             try
             {
                 // Adresse IP et numéro de port du destinataire
-                IPAddress ip = IPAddress.Parse("192.168.0.1");
+                IPAddress ip = IPAddress.Parse("192.168.0.2");
                 int port = 5002;
 
                 // Création du socket TCP
@@ -260,12 +228,12 @@ namespace Flexi_Arm.Controllers
 
         private int ListenTCP()
         {
-                TcpListener server = null;
+            TcpListener server = null;
             string responseData = "0";
             try
             {
                 // Définit l'adresse IP et le port à écouter
-                IPAddress localAddr = IPAddress.Parse("192.168.0.1");
+                IPAddress localAddr = IPAddress.Parse("192.168.0.2");
                 int port = 5003;
 
                 // Crée un objet TcpListener pour écouter les connexions entrantes

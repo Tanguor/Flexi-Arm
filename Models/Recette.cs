@@ -13,6 +13,8 @@ public class Recette
     [StringLength(50)] // Définit la longueur maximale de la chaîne
     public string Name { get; set; }
 
+    [Required]
+    public string Jobs { get; set; }
     public string Description { get; set; } // Description de la recette
 
     [ForeignKey("Id_Robot")] // clé étrangère pour lier à la table Bras_Robot
@@ -23,4 +25,9 @@ public class Recette
 
     [ForeignKey("Id_Camera")] // clé étrangère pour lier à la table Flexibowl
     public int Id_Camera { get; set; }
+}
+
+public class DefaultRecetteOptions
+{
+    public int Id { get; set; }
 }

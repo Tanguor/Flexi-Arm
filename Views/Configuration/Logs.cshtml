@@ -2,9 +2,7 @@
 <h2>Logs</h2>
 <div class="logs-container">
     <input type="text" id="search-input" placeholder="Rechercher..." />
-    <pre id="logs-content">
-        @Model
-    </pre>
+    <pre id="logs-content">@Html.Raw(Model)</pre>
 </div>
 
 <style>
@@ -41,26 +39,27 @@
     document.addEventListener("DOMContentLoaded", function () {
         var searchInput = document.getElementById("search-input");
         var logsContent = document.getElementById("logs-content");
+        var originalLogs = logsContent.innerText.split("\n");
 
         searchInput.addEventListener("input", function () {
             var searchTerm = searchInput.value.toLowerCase();
-            var logs = logsContent.innerText.split("\n");
+            var filteredLogs = originalLogs.filter(function (log) {
+                return log.toLowerCase().includes(searchTerm);
+            });
 
             logsContent.innerHTML = "";
 
-            logs.forEach(function (log) {
-                if (log.toLowerCase().includes(searchTerm)) {
-                    var logElement = document.createElement("div");
-                    logElement.innerText = log;
+            filteredLogs.forEach(function (log) {
+                var logElement = document.createElement("div");
+                logElement.innerText = log;
 
-                    if (searchTerm) {
-                        logElement.innerHTML = logElement.innerHTML.replace(new RegExp(searchTerm, "gi"), function (match) {
-                            return "<span class='highlight'>" + match + "</span>";
-                        });
-                    }
-
-                    logsContent.appendChild(logElement);
+                if (searchTerm) {
+                    logElement.innerHTML = logElement.innerHTML.replace(new RegExp(searchTerm, "gi"), function (match) {
+                        return "<span class='highlight'>" + match + "</span>";
+                    });
                 }
+
+                logsContent.appendChild(logElement);
             });
         });
     });

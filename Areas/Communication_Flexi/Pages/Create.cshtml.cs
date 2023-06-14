@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Flexi_Arm.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Flexi_Arm.Areas.Identity.Data;
-using Flexi_Arm.Models;
 
 namespace Flexi_Arm.Areas.Communication.Pages
 {
     public class CreateModel : PageModel
     {
-        private readonly Flexi_Arm.Areas.Identity.Data.ApplicationDbContext _context;
+        private readonly Identity.Data.ApplicationDbContext _context;
 
-        public CreateModel(Flexi_Arm.Areas.Identity.Data.ApplicationDbContext context)
+        public CreateModel(Identity.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -26,12 +20,12 @@ namespace Flexi_Arm.Areas.Communication.Pages
 
         [BindProperty]
         public Flexibowl Flexibowl { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Flexibowl == null || Flexibowl == null)
+            if (!ModelState.IsValid || _context.Flexibowl == null || Flexibowl == null)
             {
                 return Page();
             }

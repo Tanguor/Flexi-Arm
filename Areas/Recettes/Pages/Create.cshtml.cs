@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Flexi_Arm.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Flexi_Arm.Areas.Identity.Data;
-using Flexi_Arm.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Flexi_Arm.Areas.Recettes.Pages
 {
@@ -15,9 +9,9 @@ namespace Flexi_Arm.Areas.Recettes.Pages
     public class CreateModel : PageModel
     {
 
-        private readonly Flexi_Arm.Areas.Identity.Data.ApplicationDbContext _context;
+        private readonly Identity.Data.ApplicationDbContext _context;
 
-        public CreateModel(Flexi_Arm.Areas.Identity.Data.ApplicationDbContext context)
+        public CreateModel(Identity.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -30,7 +24,6 @@ namespace Flexi_Arm.Areas.Recettes.Pages
         public Recette Recette { get; set; } = default!;
         
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
           if (!ModelState.IsValid || _context.Recette == null || Recette == null)

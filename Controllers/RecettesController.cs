@@ -1,6 +1,7 @@
 ﻿using Flexi_Arm.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Flexi_Arm.Controllers
 {
@@ -8,8 +9,8 @@ namespace Flexi_Arm.Controllers
     {
         private readonly Areas.Identity.Data.ApplicationDbContext _context;
 
-        // Constructeur pour initialiser le DbContext
-        public RecettesController(Areas.Identity.Data.ApplicationDbContext context)
+        // Modifiez le constructeur pour inclure IRecetteService
+        public RecettesController(Areas.Identity.Data.ApplicationDbContext context )
         {
             _context = context;
         }
@@ -39,16 +40,25 @@ namespace Flexi_Arm.Controllers
             {
                 return NotFound();
             }
+            var json = System.IO.File.ReadAllText("appsettings.json");
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
 
-            // Stocke la recette dans la propriété RecetteChoisie
-            RecetteChoisie = recette;
-            TempData["MessageRecette"] = RecetteChoisie.Name;
+            // Mettre à jour la valeur
+            jsonObj["DefaultRecetteId"] = recette.Id;
+
+            // Écrire le fichier de configuration
+            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+            System.IO.File.WriteAllText("appsettings.json", output);
+            // Définit cette recette comme étant la recette actuellement chargée
+            TempData["MessageRecette"] = recette.Name;
+            TempData["IdRecette"] = recette.Id;
 
             // Redirige vers l'Index
-            return RedirectToAction("Index");
+           return RedirectToAction("Index");
         }
     }
 }
+
 
 
 //Ce morceau de code est un contrôleur ASP.NET Core MVC nommé "RecettesController". Il est défini dans le namespace "Flexi_Arm.Controllers".
