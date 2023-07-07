@@ -1,37 +1,48 @@
 ﻿@model string
-<h2>Logs</h2>
+
+<form asp-controller="Configuration" asp-action="ClearLogs" method="post">
+    <input type="submit" value="Nettoyer le journal" />
+</form>
+
 <div class="logs-container">
+    <h2>Logs</h2>
     <input type="text" id="search-input" placeholder="Rechercher..." />
     <pre id="logs-content">@Html.Raw(Model)</pre>
 </div>
 
 <style>
     .logs-container {
-        max-height: 500px;
-        overflow-y: scroll;
-        background-color: #e9e895;
-        padding: 10px;
-        border: 1px solid #004087;
+        max-height: 600px;
+        overflow-y: auto;
+        background-color: #F7F7F7;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #DEDEDE;
         position: relative;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.05);
     }
 
-        .logs-container::before {
-            content: "Logs";
-            position: absolute;
-            top: -30px;
-            left: 10px;
-            font-size: 20px;
-            font-weight: bold;
-        }
+    h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 15px;
+    }
 
     #search-input {
-        margin-bottom: 10px;
-        padding: 5px 10px;
-        border: 1px solid #ddd;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #DEDEDE;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    #logs-content {
+        font-family: 'Courier New', Courier, monospace;
     }
 
     .highlight {
-        background-color: #e9e895;
+        background-color: #FFD700;
+        padding: 2px;
     }
 </style>
 

@@ -129,6 +129,27 @@ namespace Flexi_Arm.Controllers
 
             return View("Logs", logContent);
         }
+        [HttpPost]
+        public IActionResult ClearLogs()
+        {
+            string logFilePath = "Logs\\FlexiArmLog-" + DateTime.Now.ToString("yyyyMMdd") + ".log";
+
+            if (System.IO.File.Exists(logFilePath))
+            {
+                try
+                {
+                    System.IO.File.Delete(logFilePath);
+                }
+                catch (IOException e)
+                {
+                    // Fichier toujours utilisé
+                    // Vous pouvez retourner une erreur ou réessayer après un court délai
+                    return BadRequest("Une erreur s'est produite lors de la suppression du fichier journal." + e);
+                }
+            }
+
+            return RedirectToAction("Logs");
+        }
 
         // Cette action nécessite une autorisation pour les utilisateurs ayant la politique "RequireAdmin"
         [Authorize(Policy = "RequireAdmin")]

@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Flexi_Arm.Areas.Identity.Data;
 using Serilog;
+using Microsoft.AspNetCore.SignalR.Client;
 using Flexi_Arm.Models;
+using Flexi_Arm.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -13,6 +15,9 @@ builder.Services.AddRazorPages();
 
 // Add authorization policies
 AddAuthorizationPolicies(builder.Services);
+
+// Add SignalR services
+builder.Services.AddSignalR();
 
 // Configure the default recipe Id
 var defaultRecetteId = Configuration.GetValue<int>("DefaultRecetteId");
@@ -39,6 +44,7 @@ var _logger = new LoggerConfiguration()
 
 builder.Logging.AddSerilog(_logger);
 
+
 // Build the application
 var app = builder.Build();
 
@@ -56,8 +62,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Map SignalR hub
+app.MapHub<CameraHub>("/cameraHub");
+
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
 app.Run();
 
 // Add authorization policies

@@ -50,6 +50,10 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            <form>
+                <input type="button" class="previous round" value="&#8249;&#8249;" style="font-size:30px" onclick="history.back()">
+                <input type="button" class="next round" style="font-size:30px" value="&#8250;&#8250;" onclick="history.forward()">
+            </form>
         </main>
     </div>
 

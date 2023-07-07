@@ -1,0 +1,84 @@
+.button-85-pushable {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-85-shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: hsl(340deg 0% 0% / 0.25);
+    will-change: transform;
+    transform: translateY(2px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+.button-85-edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient( to left, hsl(340deg 100% 16%) 0%, hsl(340deg 100% 25%) 8%, hsl(340deg 100% 32%) 92%, hsl(340deg 100% 16%) 100% );
+}
+
+.button-85-front {
+    display: block;
+    position: relative;
+    padding: 12px 27px;
+    border-radius: 12px;
+    font-size: 1.8rem;
+    color: white;
+    background: hsl(0deg 100% 60%);
+    will-change: transform;
+    transform: translateY(-4px);
+    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+@media (min-width: 768px) {
+    .button-85-front {
+        font-size: 2.2rem;
+        padding: 12px 42px;
+    }
+}
+
+.button-85-pushable:hover {
+    filter: brightness(110%);
+    -webkit-filter: brightness(110%);
+}
+
+    .button-85-pushable:hover .button-85-front {
+        transform: translateY(-6px);
+        transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+    }
+
+.button-85-pushable:active .button-85-front {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+}
+
+.button-85-pushable:hover .button-85-shadow {
+    transform: translateY(4px);
+    transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+.button-85-pushable:active .button-85-shadow {
+    transform: translateY(1px);
+    transition: transform 34ms;
+}
+
+.button-85-pushable:focus:not(:focus-visible) {
+    outline: none;
+}

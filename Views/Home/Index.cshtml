@@ -4,7 +4,9 @@
 }
 
 <div>
-    <h1 class="card1-title">Flexi-Arm</h1>
+    <center>
+    <img class="card-img-top logo" src="~/docs/Logo.svg" style="height: 250px; width: auto;" alt="Card image cap">
+    </center>
     <div class="card1">
         <div class="card1-body">
             <div class="text1-center">
@@ -14,14 +16,35 @@
     </div>
 </div>
 <!-- HTML !-->
-
-
+@*/*TitreRecetteId*/*@
 <style>
+
     .card1 {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 4px 8px 0 #004087;
         transition: 0.3s;
         border-radius: 50px;
-        background-color: slategray;
+        background-color: #004087;
+        /* Ajout de l'animation de rotation */
+        animation: rotation 5s infinite linear;
+    }
+
+    /* Animation de rotation */
+    @@keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: scale(1.01)
+        }
+        100% {
+            transform: scale(1)
+        }
+    }
+
+    .card1:hover {
+        box-shadow: 0 8px 16px 0 #004087;
+        /* Ajout de l'effet de zoom */
+        transform: scale(1.05); 
     }
 
     .card1-body {
@@ -34,10 +57,46 @@
 
     .card1-title {
         color: white;
-        font-weight:800;
+        font-weight: 800;
         font-family: Arial, sans-serif;
+        /* Ajout de l'effet de texte brillant */
     }
+</style> 
+
+@*/*Logo*/*@
+<style>
+    .logo-container {
+        width: 250px;
+        height: 250px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+    }
+
+    .logo {
+        width: 100%;
+        height: auto;
+        transition: transform 0.5s ease;
+        
+    }
+
+        .logo:hover {
+            transform: scale(0.95) rotate(2deg);
+        }
+
+    .logo-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+        border-radius: 50%;
+    }
+
 </style>
+
 <br />
 <hr />
 <br />
@@ -56,7 +115,7 @@
                                     <span class="button-82-shadow"></span>
                                     <span class="button-82-edge"></span>
                                     <span class="button-82-front text">
-                                        Démarrer
+                                        Chargement Recette
                                     </span>
                                 </button>
                                 }
@@ -70,7 +129,7 @@
                                     <span class="button-83-shadow"></span>
                                     <span class="button-83-edge"></span>
                                     <span class="button-83-front text">
-                                        Acquitement
+                                        Redémarer L'App
                                     </span>
                                 </button>
                             }
@@ -84,7 +143,7 @@
                                     <span class="button-84-shadow"></span>
                                     <span class="button-84-edge"></span>
                                     <span class="button-84-front text">
-                                        Eteindre
+                                        Eteindre L'App
                                     </span>
                                 </button>
                                 }
@@ -107,9 +166,29 @@
 </div>
 <br />
 <form method="post" action="@Url.Action("Logs", "Configuration")">
-    <input type="submit" value="Voir les logs" />
+    <input type="submit" value="Voir les logs" class="btn-submit" />
 </form>
 
+<style> 
+    .btn-submit {
+        font-size: 16px;
+        color: #fff;
+        background-color: #007BFF;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-submit:active {
+            background-color: #004085;
+        }
+</style>
 <script>
 $(document).ready(function() {
     $("#btnLoad").click(function(){

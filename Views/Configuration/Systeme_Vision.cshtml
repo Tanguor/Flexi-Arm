@@ -1,26 +1,50 @@
 ﻿@{
+
     <br />
     <center>
-    RATIO
-        <form action="COM_Flexibowl" method="get" class="form-example">
+        <h1>Information caméra</h1>
+        <form action="COM_Camera" method="get" class="form-example">
             <div class="form-example">
                 <label for="ip">Ip publique</label>
-                <input value="192.168.0.3" name="ip_flexi" id="ip" required>
+                <input class="input-field" value="192.168.0.3" name="ip_flexi" id="ip" required>
             </div>
             <div class="form-example">
                 <label for="port">Mettre port</label>
-                <input value="5001" type="number" name="port" id="port" required>
+                <input class="input-field" value="5001" type="number" name="port" id="port" required>
             </div>
             <div class="form-example">
                 <label for="message">Le message</label>
-                <input value="Envoi de la commande" name="message" id="message" required >
+                <input class="input-field" value="Envoi de la commande" name="message" id="message" required>
             </div>
-            <br/>
+            <br />
             <div class="form-example">
-                <input type="submit" value="Com_Flexibowl">
+                <input type="submit" value="Prise d'un image" class="btn-submit">
             </div>
         </form>
     </center>
+    <a href="~/Communication_Camera/" class="button-link">
+        <button class="button-85-pushable" value="1" role="button">
+            <span class="button-85-shadow"></span>
+            <span class="button-85-edge"></span>
+            <span class="button-85-front text">Tableau Caméras</span>
+        </button>
+    </a>
+
+    <!-- Image element to display the camera image -->
+    <img id="cameraImage" />
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/cameraHub")
+            .build();
+
+        connection.on("ReceiveImage", function (imageData) {
+            // Update image element with new image data
+            document.getElementById("cameraImage").src = "data:image/jpeg;base64," + btoa(String.fromCharCode.apply(null, imageData));
+        });
+
+        connection.start();
+    </script>
 
     @*Notification Démarage*@
     @if (TempData["MessageReu"] != null)
@@ -36,10 +60,65 @@
         <div class="alert alert-warning">
             <strong>L'envoi du message a échoué.</strong> @TempData["Messagefail"]
         </div>
-
     }
+}
+<style>
+    .form-example {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 10px;
     }
 
+    .input-field {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        width: 100%;
+        margin-top: 5px;
+    }
 
+    .btn-submit {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+    .button-link {
+        text-decoration: none;
+    }
+
+    .button-85-pushable {
+        background: #007BFF;
+        border: none;
+        color: #fff;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .alert {
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+
+    .alert-warning {
+        background: #ffeeba;
+        color: #856404;
+    }
+</style>
 

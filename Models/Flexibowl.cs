@@ -39,6 +39,8 @@ public class Flexibowl //modèle du flexi, le mieux serai de le renommer.
     [Range(0, 12, ErrorMessage = "pas besoin d'autant ... entre 0 et 12 devrai suffire.")]
     public int sh_count { get; set; } // Description de la recette
 
+    //public bool Backlight { get; set; }// Besoin de la backlight
+
 
 }
 

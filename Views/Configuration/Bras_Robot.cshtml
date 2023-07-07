@@ -1,10 +1,5 @@
 ﻿@model IEnumerable<Flexi_Arm.Models.Bras_Robot>
 
-<form>
-    <input type="button" class="previous round" value="&#8249;&#8249;" onclick="history.back()">
-    <input type="button" class="next round" value="&#8250;&#8250;" onclick="history.forward()">
-    <h1>Commandes Robot</h1>
-</form>
 
 <div class="container">
     <div class="row flex-row">
@@ -128,8 +123,8 @@
                         <h2>Recule</h2>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="BackwardAction">
-                            <h5> Décélération</h5>
+                        <form id="flexibowlForm" method="post" action="BackwardAction">
+                            <h5>Décélération</h5>
                             <input id="input_5" name="input_1" type="range" min="0" max="10000" step="10" />
                             <p>Valeur: <output id="value_5"></output></p>
                             <h5>Décélération</h5>
@@ -141,7 +136,7 @@
                             <h5>Vitesse</h5>
                             <input id="input_8" name="input_4" type="range" min="0" max="90" step="1" />
                             <p>Valeur: <output id="value_8"></output></p>
-                            <input type="submit" value="Faire tourner le flexibowl">
+                            <input id="submitButton" type="submit" value="Faire tourner le flexibowl">
                         </form>
                     </div>
                 </div>
@@ -151,19 +146,45 @@
 </div>
 
 <script>
-    let i = 1
-    while (i < 9) {
-        const value = document.querySelector("#value_" + i)
-        const input = document.querySelector("#input_" + i)
-        value.textContent = input.value
-        input.addEventListener("input", (event) => {
-            value.textContent = event.target.value
-        })
-        i++
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("flexibowlForm");
+        form.addEventListener("submit", function (event) {
+            // Perform form validation here
+            event.preventDefault(); // Prevent form submission
+            // Handle form submission or perform actions based on input values
+        });
 
+        const inputs = document.querySelectorAll("input[type='range']");
+        inputs.forEach(function (input) {
+            const value = document.querySelector("#value_" + input.id.split("_")[1]);
+            value.textContent = input.value;
+            input.addEventListener("input", function () {
+                value.textContent = input.value;
+            });
+        });
+    });
 </script>
 
+<style>
+    input[type='range'] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 20px;
+        background-color: #ddd;
+        border-radius: 10px;
+    }
+
+        input[type='range']::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+        }
+
+    /* Additional styling for other UI elements */
+</style>
 
 <style>
     input[type = range] {

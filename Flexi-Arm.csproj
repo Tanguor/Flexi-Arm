@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.15">
@@ -24,6 +25,12 @@
   <ItemGroup>
     <Folder Include="Areas\Communication_Camera\Data\" />
     <Folder Include="Areas\Communication_Robot\Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="VimbaNET">
+      <HintPath>..\..\..\..\..\..\Program Files\Allied Vision\Vimba_6.0\VimbaNET\Bin\Win64\VimbaNET.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

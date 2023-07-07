@@ -19,12 +19,15 @@ namespace Flexi_Arm.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly Areas.Identity.Data.ApplicationDbContext _context;
         private readonly int _defaultRecetteId;
+        private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
-        public HomeController(ILogger<HomeController> logger, Areas.Identity.Data.ApplicationDbContext context, IOptions<DefaultRecetteOptions> options)
+
+        public HomeController(ILogger<HomeController> logger, Areas.Identity.Data.ApplicationDbContext context, IOptions<DefaultRecetteOptions> options, IHostApplicationLifetime hostApplicationLifetime)
         {
             _logger = logger;
             _context = context;
             _defaultRecetteId = options.Value.Id;
+            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
         public void OnGet()
@@ -63,12 +66,17 @@ namespace Flexi_Arm.Controllers
         public IActionResult HandleButtonOn()
         {
             int b = 0;
-            var robotdata = _context.Bras_Robot.Find(3);
-            var flexidata = _context.Flexibowl.Find(3);
-            var Jobdata = _context.Recette.Find(5);
+
+
+            var recette = _context.Recette.FirstOrDefault(r => r.Id == _defaultRecetteId); // Supposons que la propriété Id existe dans le modèle Recette
+            var robotdata = _context.Bras_Robot.Find(recette.id_Robot);
+            var flexidata = _context.Flexibowl.Find(recette.id_Flexi);
+            var Jobdata = _context.Recette.Find(recette.Id_Camera);
+
+
 
             //envoies des instructions Robot
-            string StrCommand = "1," + robotdata.speedapproach + "," + robotdata.speedfree + "," + flexidata.sh_count + "," + flexidata.sh_speed + "," + flexidata.cw_angle + "," + flexidata.cww_angle + "," + Jobdata.Jobs + Convert.ToChar(13);
+            string StrCommand = "1;" + robotdata.speedapproach + ";" + robotdata.speedfree + ";" + flexidata.sh_count + ";" + flexidata.sh_speed + ";" + flexidata.cw_angle + ";" + flexidata.cww_angle + ";" + recette.Jobs + Convert.ToChar(13);
             SendCommandTCP(StrCommand);
 
             int a = 0;
@@ -80,37 +88,6 @@ namespace Flexi_Arm.Controllers
         // Action qui gère l'appui sur un bouton pour envoyer un acquittement à un serveur TCP
         public ActionResult HandleButtonAcq()
         {
-            int a = 0;
-        connection:
-            try
-            {
-                TcpClient client = new TcpClient("127.0.0.1", 1302);
-                string messageToSend = "Acquitement";
-                int byteCount = Encoding.ASCII.GetByteCount(messageToSend + 1);
-                byte[] sendData = Encoding.ASCII.GetBytes(messageToSend);
-
-                NetworkStream stream = client.GetStream();
-                stream.Write(sendData, 0, sendData.Length);
-                Console.WriteLine("sending data to server...");
-
-                StreamReader sr = new StreamReader(stream);
-                string response = sr.ReadLine();
-                Console.WriteLine(response);
-
-                stream.Close();
-                client.Close();
-                TempData["AcquitementReu"] = response;
-            }
-            catch (Exception)
-            {
-                TempData["Messagefail"] = "échec de la connexion";
-                Console.WriteLine("failed to connect...");
-                while (a != 2)
-                {
-                    a++;
-                    goto connection;
-                }
-            }
 
             return RedirectToAction("Index");
         }
@@ -118,37 +95,7 @@ namespace Flexi_Arm.Controllers
         // Action qui gère l'appui sur un bouton pour envoyer un acquittement à un serveur TCP
         public ActionResult HandleButtonOff()
         {
-            int a = 0;
-        connection:
-            try
-            {
-                TcpClient client = new TcpClient("127.0.0.1", 1302);
-                string messageToSend = "Commande_Off";
-                int byteCount = Encoding.ASCII.GetByteCount(messageToSend + 1);
-                byte[] sendData = Encoding.ASCII.GetBytes(messageToSend);
-
-                NetworkStream stream = client.GetStream();
-                stream.Write(sendData, 0, sendData.Length);
-                Console.WriteLine("sending data to server...");
-
-                StreamReader sr = new StreamReader(stream);
-                string response = sr.ReadLine();
-                Console.WriteLine(response);
-
-                stream.Close();
-                client.Close();
-                TempData["ExctinctionReu"] = response;
-            }
-            catch (Exception)
-            {
-                TempData["Messagefail"] = "Echec";
-                Console.WriteLine("failed to connect...");
-                while (a != 2)
-                {
-                    a++;
-                    goto connection;
-                }
-            }
+            _hostApplicationLifetime.StopApplication();
 
             return RedirectToAction("Index");
         }
@@ -162,48 +109,17 @@ namespace Flexi_Arm.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        static int H = 0;
-        private void SendCommand(string StrCommand)
-        {
-            var Id = TempData["_IdSlctR"];
-            if (Id == null) { Id = 1; };
-            var communication = _context.Flexibowl.Find(Id);
-            var ip = communication.Ip;
-            var port = communication.Port;
-            // Crée un client UDP
-            UdpClient udpClient = new UdpClient();
-
-            // Convertit la commande en byte[] et l'envoie
-            byte[] b = Encoding.ASCII.GetBytes(StrCommand);
-            udpClient.Send(b, b.Length, ip, port);
-
-            // Ferme le client UDP
-            udpClient.Close();
-
-            // Attend une demi-seconde avant d'afficher un message dans la console
-            Thread.Sleep(50);
-
-            // Affiche un message dans la console
-            if (H == 1)
-            {
-                Console.WriteLine(H + " er message sent to the broadcast address");
-            }
-            else
-            {
-                Console.WriteLine(H + "ème message sent to the broadcast address");
-            }
-
-            // Incrémente le compteur pour le message envoyé
-            H++;
-        }
-
-        private void SendCommandTCP(string StrCommand)
+   
+        private string SendCommandTCP(string StrCommand)
         {
             try
             {
                 // Adresse IP et numéro de port du destinataire
-                IPAddress ip = IPAddress.Parse("192.168.0.2");
-                int port = 5002;
+                var recetteid = _context.Recette.Find(_defaultRecetteId);
+                var robotdata = _context.Bras_Robot.Find(recetteid.id_Robot) ;
+
+                IPAddress ip = IPAddress.Parse(robotdata.Ip);
+                int port = robotdata.Port;
 
                 // Création du socket TCP
                 TcpClient client = new TcpClient();
@@ -213,65 +129,19 @@ namespace Flexi_Arm.Controllers
                 byte[] buffer = Encoding.UTF8.GetBytes(StrCommand);
                 // Envoi du message
                 NetworkStream stream = client.GetStream();
-                Thread.Sleep(200);
+                Thread.Sleep(1000);
                 stream.Write(buffer, 0, buffer.Length);
                 Thread.Sleep(1000);
                 Console.WriteLine("Message envoyé: " + StrCommand);
                 // Fermeture de la connexion
                 client.Close();
+                return ("message sended");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Erreur : " + ex.Message);
+                return ("Erreur : " + ex.Messag);
             }
         }
-
-        private int ListenTCP()
-        {
-            TcpListener server = null;
-            string responseData = "0";
-            try
-            {
-                // Définit l'adresse IP et le port à écouter
-                IPAddress localAddr = IPAddress.Parse("192.168.0.2");
-                int port = 5003;
-
-                // Crée un objet TcpListener pour écouter les connexions entrantes
-                server = new TcpListener(IPAddress.Any, port);
-
-                // Démarrer l'écoute
-                server.Start();
-                Console.WriteLine("En attente de connexion...");
-
-                // Accepter une connexion cliente
-                TcpClient client = server.AcceptTcpClient();
-                Console.WriteLine("Connexion acceptée.");
-
-                // Traitement de la requête du client
-                NetworkStream stream = client.GetStream();
-
-                // Lecture des données envoyées par le client
-                byte[] data = new byte[256];
-                int bytes = stream.Read(data, 0, data.Length);
-                responseData = Encoding.ASCII.GetString(data, 0, bytes);
-                Console.WriteLine("Données reçues : {0}", responseData);
-
-                // Fermer la connexion
-                client.Close();
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erreur : {0}", e);
-            }
-            finally
-            {
-                // Fermer la connexion
-                server.Stop();
-            }
-            return Int16.Parse(responseData);
-
-        }
-
     }
 }

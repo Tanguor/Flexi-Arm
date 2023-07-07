@@ -25,7 +25,19 @@ html {
     min-height: 100%;
     font-size: 14px;
 }
+.previous {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    transform: translateY(-10%);
+}
 
+.next {
+    position: absolute;
+    right: 0;
+    top: 10%;
+    transform: translateY(-10%);
+}
 
 body {
     min-height: 100vh;
@@ -45,7 +57,23 @@ button {
     height: 100%;
 }
 
+.round {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 50px; /* Pour rendre le bouton rond */
+    box-shadow: 0 9px #999;
+    transition: all 0.3s cubic-bezier(.64,.09,.08,1); /* Pour l'effet de transition */
+}
 
+    .round:hover {
+        background-color: #2980b9;
+        box-shadow: 0 6px #666;
+        transform: translateY(4px); /* Pour l'effet de "pression" du bouton */
+    }
 
 /* CSS */
 .button-82-pushable {
